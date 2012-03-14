@@ -1,6 +1,11 @@
 package dictionary;
 
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import java.util.Random;
+
+import dictionary.InsertComplexities.InstrumentedKey;
 
 public class Main {
 
@@ -8,25 +13,39 @@ public class Main {
     private static final int REPITITIONS = 500;
 
     public static void main(String[] args) throws FileNotFoundException {
-    	OrderedLinkedList<String, Integer> oll;
-    	oll = new OrderedLinkedList<String, Integer>();
+    	FileOutputStream fstream;
+    	PrintStream pstream;
+    	OrderedLinkedList<InstrumentedKey, Integer> oll;
+    	BinarySearchTree<InstrumentedKey, Integer> bst;
+    	InsertComplexities comp;
+    	Random random;
+    	int[] oll_data, bst_data;
     	
-    	System.out.println(oll.isEmpty());
+    	oll = new OrderedLinkedList<InstrumentedKey, Integer>();
+    	bst = new BinarySearchTree<InstrumentedKey, Integer>();
     	
-    	oll.put("Hey", 150);
-    	oll.put("Test", 120);
-    	oll.put("Ha", 160);
-    	oll.put("Ah", 200);
-    	System.out.println(oll);
-    	System.out.println(oll.size());
+    	random = new Random();
+    	comp = new InsertComplexities(random);
+    	oll_data = comp.getInsertComplexities(oll, MAX_SIZE, REPITITIONS);
+    	bst_data = comp.getInsertComplexities(bst, MAX_SIZE, REPITITIONS);
     	
-    	oll.remove("Hey");
-    	oll.remove("Ah");
+    	fstream = new FileOutputStream("OrderedLinkedList.dat");
+    	pstream = new PrintStream(fstream);
+    	System.setOut(pstream);
     	
-    	System.out.println(oll);
-    	System.out.println(oll.size());
+    	for (int i = 0; i < MAX_SIZE; i++) {
+    		System.out.println(i + "\t" + oll_data[i]);
+    	}
     	
-    	System.out.println(oll.isEmpty());
+    	fstream = new FileOutputStream("BinarySearchTree.dat");
+    	pstream = new PrintStream(fstream);
+    	System.setOut(pstream);
+    	
+    	for (int i = 0; i < MAX_SIZE; i++) {
+    		System.out.println(i + "\t" + bst_data[i]);
+    	}
+    	
+    	
     }
     
     

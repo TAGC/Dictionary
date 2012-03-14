@@ -114,5 +114,70 @@ public abstract class TestDictionary {
     public void testListIteratorRemoveUnimplemented() {
         d.iterator().remove();
     }
-
+    
+    //Additional tests
+    
+    @Test
+    public void testSizeAfterRemoval() {
+	    List<String> ponies = Arrays.asList("Rarity", "Rainbow Dash",
+	            "Twilight Sparkle", "Pinkie Pie", "Applejack", "Fluttershy");
+	    for (String pony : ponies) {
+	        d.put(pony, pony.hashCode());
+	    }
+	    
+	    int original_size = d.size();
+	    d.remove("Pinkie Pie");
+	    int new_size = d.size();
+	    assertEquals("size() failed for removing ponies", original_size - 1, new_size);
+    }
+    
+    @Test
+    public void testSizeAfterAddition() {
+    	List<String> ponies = Arrays.asList("Rarity", "Rainbow Dash",
+	            "Twilight Sparkle", "Pinkie Pie", "Applejack", "Fluttershy");
+	    for (String pony : ponies) {
+	        d.put(pony, pony.hashCode());
+	    }
+	    
+	    int original_size = d.size();
+	    d.put("Octavia", "Octavia".hashCode());
+	    d.put("Derpy Hooves", "Derpy Hooves".hashCode());
+	    d.put("Dr. Whooves", "Dr. Whooves".hashCode());
+	    int new_size = d.size();
+	    assertEquals("size() failed for adding ponies", original_size + 3, new_size);
+    }
+    
+    @Test
+    public void testOrder() {
+    	List<String> ponies = Arrays.asList("Rarity", "Rainbow Dash",
+	            "Twilight Sparkle", "Pinkie Pie", "Applejack", "Fluttershy");
+    	
+    	Collections.sort(ponies);
+	    for (String pony : ponies) {
+	        d.put(pony, pony.hashCode());
+	    }
+	    
+	    Iterator<DictionaryEntry<String, Integer>> iterator;
+	    iterator = d.iterator();
+	    
+	    for (int i = 0; i < d.size(); i++) {
+	    	assertEquals("Failure with ordering ponies", 
+	    			ponies.get(i), iterator.next().getKey());
+	    }
+    }
+    
+    @Test 
+    public void testClearing() {
+    	List<String> ponies = Arrays.asList("Rarity", "Rainbow Dash",
+	            "Twilight Sparkle", "Pinkie Pie", "Applejack", "Fluttershy");
+    	
+    	Collections.sort(ponies);
+	    for (String pony : ponies) {
+	        d.put(pony, pony.hashCode());
+	    }
+	    
+	    assertFalse(d.isEmpty());
+	    d.clear();
+	    assertTrue(d.isEmpty());
+    }
 }
