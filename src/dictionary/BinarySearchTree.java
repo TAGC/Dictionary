@@ -18,7 +18,14 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements
 	
 	private BinarySearchTreeEntry<K, V> root;
 	private int dict_modifications = 0;
-
+	
+	/*
+	 * 
+	 * @return an iterator through the BST dictionary from 
+	 *         the entry with the smallest key to the 
+	 *         element with the greatest key
+	 * 
+	 */
 	@Override
 	public Iterator<DictionaryEntry<K, V>> iterator() {
 		LinkedList<DictionaryEntry<K, V>> entry_list;
@@ -36,6 +43,10 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements
 	
 	/*
 	 * Performs in-order traversal of the binary tree
+	 * 
+	 * @return a LinkedList object parameterised with DictionaryEntry<K, V>
+	 *         that contains elements in order from smallest to largest
+	 *         keys
 	 */
 	private LinkedList<DictionaryEntry<K, V>> traverse(
 	        BinarySearchTreeEntry<K, V> entry,
@@ -53,7 +64,10 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements
 		
 		return entry_list;
 	}
-
+	
+	/*
+	 * @return the number of entries in the dictionary
+	 */
 	@Override
 	public int size() {
 		if (isEmpty()) {
@@ -63,6 +77,13 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements
 		}
 	}
 	
+	/*
+	 * @param current
+	 *        	The dictionary entry under consideration - allows the
+	 *          function to recurse
+	 *
+	 * @return the number of items in the dictionary
+	 */
 	private int entryCounter(BinarySearchTreeEntry<K, V> current) {
 		if (current.getLeft() == null && current.getRight() == null) {
 			return 1;
@@ -75,12 +96,25 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements
 				     + entryCounter(current.getRight());
 		}
 	}
-
+	
+	/*
+	 * @return true if the dictionary contains no entries, otherwise false
+	 */
 	@Override
 	public boolean isEmpty() {
 		return root == null;
 	}
 
+	/*
+	 * @param key 
+	 *        	The key being searched for in the dictionary
+	 * 
+	 * @return the value associated with the key if it exists in the 
+	 *         dictionary
+	 * 
+	 * @throws NoSuchElementException
+	 *         	if key does not exist within the dictionary
+	 */
 	@Override
 	public V get(K key) throws NoSuchElementException {
 		V value;
@@ -98,8 +132,15 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements
 	}
 	
 	/*
-	 * Returns the value of the entry in the tree that matches with the 
-	 * given key if it exists. Otherwise returns null.
+	 * @param key
+	 *        	the key to be searched for in the dictionary
+	 * 
+	 * @param entry
+	 *        	the dictionary entry under consideration - allows the
+	 *          function to be recursive
+	 * 
+	 * @return the value associated with the key if it exists in the
+	 *         dictionary, otherwise null
 	 */
 	private V find(K key, BinarySearchTreeEntry<K, V> entry) {
 		if (key.compareTo(entry.getKey()) < 0) {
@@ -121,7 +162,14 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements
 			}
 		}
 	}
-
+	
+	/*
+	 * @param key
+	 *        	the key to be inserted or modified in the dictionary
+	 *
+	 * @param value
+	 *          the value associated with the key
+	 */
 	@Override
 	public void put(K key, V value) {
 		BinarySearchTreeEntry<K, V> new_entry;
@@ -136,7 +184,15 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements
 	}
 	
 	/*
-	 * Traverses the tree and inserts a key-value pair at the appropriate place
+	 * @param key
+	 *        	the key to be be inserted into the dictionary
+	 * 
+	 * @param value
+	 *          the value associated with the key to be inserted
+	 *          
+	 * @param entry
+	 *          the dictionary entry under consideration - allows the
+	 *          function to be recursive
 	 */
 	private void insert(K key, V value, BinarySearchTreeEntry<K, V> entry) {
 		if (key.compareTo(entry.getKey()) < 0) {
@@ -158,7 +214,14 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements
 			}
 		}
 	}
-
+	
+	/*
+	 * @param key
+	 *          the key to be removed from the dictionary
+	 * 
+	 * @throws NoSuchElementException
+	 *           if the key does not exist in the dictionary
+	 */
 	@Override
 	public void remove(K key) throws NoSuchElementException {
 		if (isEmpty()) {
@@ -173,6 +236,17 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements
 		}
 	}
 	
+	/*
+	 * @param key
+	 *         the key to be removed from the dictionary
+	 * 
+	 * @param entry
+	 *         the dictionary entry under consideration - allows the 
+	 *         function to be recursive
+	 *         
+	 * @return true if an appropriate dictionary entry existed in the
+	 *         dictionary and was removed, otherwise false
+	 */
 	private boolean removeHelper(K key, BinarySearchTreeEntry<K, V> entry) {
 		if (key.compareTo(entry.getKey()) < 0) {
 			// the key is smaller than this entry's key
@@ -240,13 +314,19 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements
 		}
 	}
 	
-	
+	/*
+	 * Removes all elements from the dictionary
+	 */
 	@Override
 	public void clear() {
 		dict_modifications++;
 		root = null;
 	}
 	
+	/*
+	 * @return the number of modifications carried out on the
+	 *         dictionary 
+	 */
 	public int getModifications() {
 		return dict_modifications;
 	}

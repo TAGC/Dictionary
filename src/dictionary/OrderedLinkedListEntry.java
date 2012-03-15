@@ -12,24 +12,42 @@ public class OrderedLinkedListEntry<K, V> implements DictionaryEntry<K, V> {
 		this.value = value;
 	}
 	
+	/*
+	 * @return the key associated with this entry
+	 */
 	@Override
 	public K getKey() {
 		return key;
 	}
-
+	
+	/*
+	 * @return value associated with this entry
+	 */
 	@Override
 	public V getValue() {
 		return value;
 	}
 	
+	/*
+	 * @param value
+	 *        	the new value to set the entry to
+	 *        
+	 */
 	public void setValue(V value) {
 		this.value = value;
 	}
 	
+	/*
+	 * @param next
+	 *        	the entry that should follow from this node
+	 */
 	public void addNext(OrderedLinkedListEntry<K, V> next) {
 		this.next = next;
 	}
 	
+	/*
+	 * @return the entry that follows from this node
+	 */
 	public OrderedLinkedListEntry<K, V> getNext() {
 		return next;
 	}

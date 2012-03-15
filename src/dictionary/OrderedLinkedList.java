@@ -15,6 +15,13 @@ public class OrderedLinkedList<K extends Comparable<? super K>, V> implements
 	private OrderedLinkedListEntry<K, V> root;
 	private int dict_modified = 0;
 	
+	/*
+	 * 
+	 * @return an iterator through the BST dictionary from 
+	 *         the entry with the smallest key to the 
+	 *         element with the greatest key
+	 * 
+	 */
 	@Override
 	public Iterator<DictionaryEntry<K, V>> iterator() {
 		LinkedList<DictionaryEntry<K, V>> entry_list;
@@ -31,7 +38,10 @@ public class OrderedLinkedList<K extends Comparable<? super K>, V> implements
 		iterator = new OLLIterator<K, V>(this, entry_list);
 		return iterator;
 	}
-
+	
+	/*
+	 * @return the number of entries in the dictionary
+	 */
 	@Override
 	public int size() {
 		OrderedLinkedListEntry<K, V> current;
@@ -45,12 +55,25 @@ public class OrderedLinkedList<K extends Comparable<? super K>, V> implements
 		
 		return size;
 	}
-
+	
+	/*
+	 * @return true if the dictionary contains no entries, otherwise false
+	 */
 	@Override
 	public boolean isEmpty() {
 		return root == null;
 	}
-
+	
+	/*
+	 * @param key 
+	 *        	The key being searched for in the dictionary
+	 * 
+	 * @return the value associated with the key if it exists in the 
+	 *         dictionary
+	 * 
+	 * @throws NoSuchElementException
+	 *         	if key does not exist within the dictionary
+	 */
 	@Override
 	public V get(K key) throws NoSuchElementException {
 		OrderedLinkedListEntry<K, V> current;
@@ -66,7 +89,14 @@ public class OrderedLinkedList<K extends Comparable<? super K>, V> implements
 		
 		throw new NoSuchElementException();
 	}
-
+	
+	/*
+	 * @param key
+	 *        	the key to be inserted or modified in the dictionary
+	 *
+	 * @param value
+	 *          the value associated with the key
+	 */
 	@Override
 	public void put(K key, V value) {
 		OrderedLinkedListEntry<K, V> current;
@@ -106,7 +136,14 @@ public class OrderedLinkedList<K extends Comparable<? super K>, V> implements
 		new_entry = new OrderedLinkedListEntry<K, V>(key, value);
 		current.addNext(new_entry);
 	}
-
+	
+	/*
+	 * @param key
+	 *          the key to be removed from the dictionary
+	 * 
+	 * @throws NoSuchElementException
+	 *           if the key does not exist in the dictionary
+	 */
 	@Override
 	public void remove(K key) throws NoSuchElementException {
 		OrderedLinkedListEntry<K, V> current;
@@ -141,13 +178,20 @@ public class OrderedLinkedList<K extends Comparable<? super K>, V> implements
 		
 		throw new NoSuchElementException();
 	}
-
+	
+	/*
+	 * Removes all elements from the dictionary
+	 */
 	@Override
 	public void clear() {
 		dict_modified++;
 		root = null;	
 	}
 	
+	/*
+	 * @return the number of modifications carried out on the
+	 *         dictionary 
+	 */
 	public int getModifications() {
 		return dict_modified;
 	}
